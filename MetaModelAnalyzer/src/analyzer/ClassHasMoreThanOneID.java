@@ -1,9 +1,11 @@
 package analyzer;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
@@ -19,39 +21,32 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 
-public class ClassHasMoreThanOneID implements IAnalyzer{
-
-	private int more_than_one_id = 0;
+public class ClassHasMoreThanOneID extends IAnalyzer {
+//	private HashMap<Integer,Integer> results = new HashMap<Integer,Integer>();  
 
 	@Override
-	public void printSummary() {
-		System.out.println("Models with more than one ID in one EClass: " + this.more_than_one_id);		
+	public void printSummary() {	
+		this.ar.printGen("id");
 	}
 
 	@Override
-	public void analyze(EList<EObject> models) {		
-		for (EObject model : models) {
-			EList<EObject> eobjects = model.eContents();
-			for (EObject eo : eobjects) {
-				if (eo.getClass() == EClassImpl.class) {
-					EClass eclass = (EClass) eo;
-					System.out.println(eclass.getName());
-					int numberOfIDs = 0;
-					for (EAttribute att : eclass.getEAllAttributes()) {
-						if (att.isID()) {
-							System.out.println("\t\"" + att.getName() + "\" is an ID!");
-							numberOfIDs++;
-						}
-					}
-					for (EClass e : eclass.getEAllSuperTypes()) {
-//						System.out.println("\t\"" + e.getName() + "\" is an supertype!");						
-					}
-					if (numberOfIDs > 1) {
-						this.more_than_one_id++;
-						return;
-					}
+	public void analyze(ArrayList<EClass> eclasses) {		
+		if (eclasses.size() == 0) {
+			this.ar.inc(eclasses.size());
+			return;
+		}
+		for (EClass ec : eclasses) {
+			int numberOfIDs = 0;
+			for (EAttribute att : ec.getEAllAttributes()) {
+				if (att.isID()) {
+					numberOfIDs++;
 				}
 			}
+			if (numberOfIDs > 1) {
+				this.ar.inc(eclasses.size());
+				return;
+			}
 		}
+		this.ar.inc(-1 * eclasses.size());
 	}
 }
