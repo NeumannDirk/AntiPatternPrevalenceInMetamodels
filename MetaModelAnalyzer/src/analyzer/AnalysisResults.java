@@ -86,7 +86,7 @@ public class AnalysisResults {
 		try {
 			FileWriter writer = new FileWriter(csvFile);
 			StringBuilder sb = new StringBuilder(h1 + "," + h2 + "\n");
-			for (int i = 1; i < list.size(); i++) {
+			for (int i = 0; i < list.size(); i++) {
 				if (!skipZeros || list.get(i).intValue() != 0) {
 					sb.append(i + "," + list.get(i).intValue() + "\n");
 				}
@@ -100,24 +100,27 @@ public class AnalysisResults {
 	}
 
 	public void printGen(String prefix) {
-		this.listToCSV(this.pos_agg, prefix + "_pos_agg.csv", "NoClasses", "NoAP", true);
-		this.listToCSV(this.neg_agg, prefix + "_neg_agg.csv", "NoClasses", "NoAP", true);
-		this.listToCSV(this.all_agg, prefix + "_all_agg.csv", "NoClasses", "NoAP", true);
-		this.listToCSV(this.pos_flat, prefix + "_pos_flat.csv", "NoClasses", "NoAP", false);
-		this.listToCSV(this.neg_flat, prefix + "_neg_flat.csv", "NoClasses", "NoAP", false);
-		this.listToCSV(this.all_flat, prefix + "_all_flat.csv", "NoClasses", "NoAP", false);
+		String dir = "results\\";//+prefix+"\\";
+		this.listToCSV(this.pos_agg, dir + prefix + "_pos_agg.csv", "NoClasses", "NoAP", true);
+		this.listToCSV(this.neg_agg, dir + prefix + "_neg_agg.csv", "NoClasses", "NoAP", true);
+		this.listToCSV(this.all_agg, dir + prefix + "_all_agg.csv", "NoClasses", "NoAP", true);
+		this.listToCSV(this.pos_flat, dir + prefix + "_pos_flat.csv", "NoClasses", "NoAP", false);
+		this.listToCSV(this.neg_flat, dir + prefix + "_neg_flat.csv", "NoClasses", "NoAP", false);
+		this.listToCSV(this.all_flat, dir + prefix + "_all_flat.csv", "NoClasses", "NoAP", false);
 
-		this.listToCSV(this.small_pos_flat, prefix + "_small_pos_flat.csv", "NoClasses", "NoAP", false);
-		this.listToCSV(this.small_neg_flat, prefix + "_small_neg_flat.csv", "NoClasses", "NoAP", false);
-		this.listToCSV(this.small_all_flat, prefix + "_small_all_flat.csv", "NoClasses", "NoAP", false);
-		this.listToCSV(this.medium_pos_flat, prefix + "_medium_pos_flat.csv", "NoClasses", "NoAP", false);
-		this.listToCSV(this.medium_neg_flat, prefix + "_medium_neg_flat.csv", "NoClasses", "NoAP", false);
-		this.listToCSV(this.medium_all_flat, prefix + "_medium_all_flat.csv", "NoClasses", "NoAP", false);
-		this.listToCSV(this.large_pos_flat, prefix + "_large_pos_flat.csv", "NoClasses", "NoAP", false);
-		this.listToCSV(this.large_neg_flat, prefix + "_large_neg_flat.csv", "NoClasses", "NoAP", false);
-		this.listToCSV(this.large_all_flat, prefix + "_large_all_flat.csv", "NoClasses", "NoAP", false);
+		this.listToCSV(this.small_pos_flat, dir + prefix + "_small_pos_flat.csv", "NoClasses", "NoAP", false);
+		this.listToCSV(this.small_neg_flat, dir + prefix + "_small_neg_flat.csv", "NoClasses", "NoAP", false);
+		this.listToCSV(this.small_all_flat, dir + prefix + "_small_all_flat.csv", "NoClasses", "NoAP", false);
+		this.listToCSV(this.medium_pos_flat, dir + prefix + "_medium_pos_flat.csv", "NoClasses", "NoAP", false);
+		this.listToCSV(this.medium_neg_flat, dir + prefix + "_medium_neg_flat.csv", "NoClasses", "NoAP", false);
+		this.listToCSV(this.medium_all_flat, dir + prefix + "_medium_all_flat.csv", "NoClasses", "NoAP", false);
+		this.listToCSV(this.large_pos_flat, dir + prefix + "_large_pos_flat.csv", "NoClasses", "NoAP", false);
+		this.listToCSV(this.large_neg_flat, dir + prefix + "_large_neg_flat.csv", "NoClasses", "NoAP", false);
+		this.listToCSV(this.large_all_flat, dir + prefix + "_large_all_flat.csv", "NoClasses", "NoAP", false);
 		
+		System.out.println("==================================================");
 		System.out.println(prefix);
+		System.out.println("==================================================");
 		System.out.println("this.pos_agg.size() = " + this.pos_agg.size());
 		System.out.println("this.neg_agg.size() = " + this.neg_agg.size());
 		System.out.println("this.all_agg.size() = " + this.all_agg.size());
@@ -157,7 +160,7 @@ public class AnalysisResults {
 				}
 				sb.append("\n");
 			}
-			FileWriter boxwriter = new FileWriter(prefix + "_boxplots.csv");
+			FileWriter boxwriter = new FileWriter(dir + prefix + "_boxplots.csv");
 			boxwriter.write(sb.toString());
 			boxwriter.flush();
 			boxwriter.close();

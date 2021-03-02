@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -17,34 +18,31 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 
-public class MalformedMultiplicityElement extends IAnalyzer {
-
-	private int malformed_multi_element = 0;
-
+public class MME_restricted extends IAnalyzer {
 	@Override
 	public void printSummary() {
-		this.ar.printGen("mme2");	
+		this.ar.printGen("mme_res");	
 	}
 
 	@Override
-	public void analyze(ArrayList<EClass> eclasses) {
+	public void analyze(TreeIterator<EObject> iterator,ArrayList<EClass> eclasses) {
 		if (eclasses.size() == 0) {
 			this.ar.inc(0);
 			return;
 		}
+		//[*,*] ==> ok
+		//[x,*] ==> ok
+		//[*,y] ==> nicht ok
+		//[x,y] ==> nicht ok wenn x > y
 		for (EClass ec : eclasses) {		
-//			System.out.println("Class:"+ec.getName());	
 			//Interesting part	
 			for (EStructuralFeature esf : ec.getEAllStructuralFeatures()) {
-//				if(esf.getClass() == EAttributeImpl.class) {
-//					continue;
-//				}
 				int lo = esf.getLowerBound();
-				int up = esf.getUpperBound();	
-				if((lo > up )){//||(lo == -1 && up != -1)
+				int up = esf.getUpperBound();
+				//[x,y] ==> nicht ok wenn x > y
+				if((lo != -1)&&(up != -1)&&(lo > up)) {
 					this.ar.inc(eclasses.size());
-//					System.out.println("\t"+esf.getName());
-					return;
+					return;					
 				}
 			}
 		}

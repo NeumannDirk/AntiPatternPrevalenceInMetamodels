@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.*;
@@ -14,10 +15,10 @@ public abstract class IAnalyzer {
 	protected AnalysisResults ar = new AnalysisResults();
 	
 	public abstract void printSummary();
-	public abstract void analyze(ArrayList<EClass> eclasses);
+	public abstract void analyze(TreeIterator<EObject> iterator,ArrayList<EClass> eclasses);
 	
 	public static void getAllClasses(EList<EObject> contents, ArrayList<EClass> eclasses, Integer packageHash) {
-		for (EObject content : contents) {		
+		for (EObject content : contents) {	
 			if(content.getClass() == EClassImpl.class) {
 				eclasses.add((EClass)content);
 			}
