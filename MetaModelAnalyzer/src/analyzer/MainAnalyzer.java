@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
@@ -15,11 +17,38 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 
+import org.eclipse.emf.edit.command.AddCommand;
+
+import metrics.CountingComplexity;
+import metrics.NumberOfClassesMetric;
+
 public class MainAnalyzer {
 
 	StringBuilder sb = new StringBuilder();
 	
 	public static void main(String[] args) {
+		Object o1 = new Object();
+		Object o2 = new Object();
+		Object o3 = new Object();
+		Object o4 = new Object();
+		Object o5 = new Object();
+		
+		List<Object> list = new ArrayList<Object>();
+		EList<Object> elist = new BasicEList<Object>();
+		
+		list.add(o1);
+		list.add(o2);
+		list.add(0,o2);
+//		list.add(-1,o2);
+		list.add(0,o2);
+		
+		elist.add(o1);
+		elist.add(o2);
+		elist.add(0,o2);
+//		elist.add(-1,o2);
+		elist.add(0,o2);		
+				
+		if (true) return;
 		String dir = System.getProperty("user.dir") + "\\model";
 		dir = "D:\\data\\ap_mm";
 //		System.out.print(dir);
@@ -52,11 +81,15 @@ public class MainAnalyzer {
 	private int not_readable_file = 0;
 	private int empty_file = 0;
 	private ArrayList<IAnalyzer> analyzers = new ArrayList<IAnalyzer>();
+	private ArrayList<IAnalyzer> metrics = new ArrayList<IAnalyzer>();
 
-	public MainAnalyzer() {
+	public MainAnalyzer() {		
+//		this.metrics.add(new NumberOfClassesMetric());
+		this.metrics.add(new CountingComplexity());
+		
 //		this.analyzers.add(new ClassHasMoreThanOneID());
-		this.analyzers.add(new MME_complete());
-		this.analyzers.add(new MME_restricted());
+//		this.analyzers.add(new MME_complete());
+//		this.analyzers.add(new MME_restricted());
 //		this.analyzers.add(new Unnamed_complete());
 //		this.analyzers.add(new Unnamed_noPackage());
 	}
@@ -74,7 +107,8 @@ public class MainAnalyzer {
 		badones.add(44810);
 		badones.add(44811);
 
-		for (int i = 0; i < ecoreFiles.size(); i++) {
+//		for (int i = 0; i < ecoreFiles.size(); i++) {
+		for (int i = 0; i < 25; i++) {
 			if (i % 1000 == 0) {
 				System.out.println(i);
 			}
@@ -104,14 +138,18 @@ public class MainAnalyzer {
 			ArrayList<EClass> eclasses = new ArrayList<EClass>();
 			IAnalyzer.getAllClasses(emodels, eclasses, null);
 			
+			for (IAnalyzer analyzer : this.metrics) {
+				analyzer.analyze(myMetaModel.getAllContents(), eclasses);
+			}
+			
 			for (IAnalyzer analyzer : this.analyzers) {
-				analyzer.analyze(myMetaModel.getAllContents(),eclasses);
+				analyzer.analyze(myMetaModel.getAllContents(), eclasses);
 			}			
 			
 			myMetaModel = null;
 			eclasses = null;
 		}
-		printSummary();
+//		printSummary();
 	}
 
 	private void printSummary() {

@@ -25,10 +25,10 @@ public class MME_restricted extends IAnalyzer {
 	}
 
 	@Override
-	public void analyze(TreeIterator<EObject> iterator,ArrayList<EClass> eclasses) {
+	public int analyze(TreeIterator<EObject> iterator,ArrayList<EClass> eclasses) {
 		if (eclasses.size() == 0) {
 			this.ar.inc(0);
-			return;
+			return -1;
 		}
 		//[*,*] ==> ok
 		//[x,*] ==> ok
@@ -42,10 +42,11 @@ public class MME_restricted extends IAnalyzer {
 				//[x,y] ==> nicht ok wenn x > y
 				if((lo != -1)&&(up != -1)&&(lo > up)) {
 					this.ar.inc(eclasses.size());
-					return;					
+					return -1;					
 				}
 			}
 		}
 		this.ar.inc(-1 * eclasses.size());
+		return -1;			
 	}
 }

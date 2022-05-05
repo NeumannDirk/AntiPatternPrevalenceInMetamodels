@@ -21,7 +21,7 @@ public class Unnamed_complete extends IAnalyzer {
 	}
 
 	@Override
-	public void analyze(TreeIterator<EObject> iterator,ArrayList<EClass> eclasses) {
+	public int analyze(TreeIterator<EObject> iterator,ArrayList<EClass> eclasses) {
 		int numClasses = eclasses.size(); 
 		if (!iterator.hasNext()) {
 			this.ar.inc(0);
@@ -32,12 +32,12 @@ public class Unnamed_complete extends IAnalyzer {
 					String name = ((ENamedElementImpl) eo).getName();
 					if(name == null || name.equals("")) {
 						this.ar.inc(numClasses);
-						return;						
+						return -1;						
 					}
 				}			
 			}
 			this.ar.inc(-1 * numClasses);
 		}
-		return;
+		return -1;
 	}
 }

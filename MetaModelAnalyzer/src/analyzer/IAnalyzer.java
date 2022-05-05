@@ -15,7 +15,7 @@ public abstract class IAnalyzer {
 	protected AnalysisResults ar = new AnalysisResults();
 	
 	public abstract void printSummary();
-	public abstract void analyze(TreeIterator<EObject> iterator,ArrayList<EClass> eclasses);
+	public abstract int analyze(TreeIterator<EObject> iterator,ArrayList<EClass> eclasses);
 	
 	public static void getAllClasses(EList<EObject> contents, ArrayList<EClass> eclasses, Integer packageHash) {
 		for (EObject content : contents) {	
