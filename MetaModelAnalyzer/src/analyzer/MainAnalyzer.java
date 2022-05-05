@@ -48,7 +48,6 @@ public class MainAnalyzer {
 //		elist.add(-1,o2);
 		elist.add(0,o2);		
 				
-		if (true) return;
 		String dir = System.getProperty("user.dir") + "\\model";
 		dir = "D:\\data\\ap_mm";
 //		System.out.print(dir);
@@ -96,8 +95,27 @@ public class MainAnalyzer {
 
 	String badModels = "";
 
+	public static double roundAvoid(double value, int places) {
+	    double scale = Math.pow(10, places);
+	    return Math.round(value * scale) / scale;
+	}
+	
 	private void run(ArrayList<String> ecoreFiles) {
 		sb.append("Number of meta-models: " + ecoreFiles.size());
+		int containsTest = 0;
+		for (int i = 0; i < ecoreFiles.size(); i++) {
+			boolean found = false;
+			found |= ecoreFiles.get(i).contains("test");
+			found |= ecoreFiles.get(i).contains("Test");
+			if (found) {
+				containsTest++;
+			}
+		}
+		sb.append("\ncontains \"test\" or \"Test\": " + containsTest);
+		sb.append("\nthat is: " + roundAvoid(containsTest*100.0d/ecoreFiles.size(), 2) + "%");
+		System.out.println(sb.toString());
+		if (true)
+			return;
 
 		ArrayList<Integer> badones = new ArrayList<Integer>();
 		badones.add(44803);
