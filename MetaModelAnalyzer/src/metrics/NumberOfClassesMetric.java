@@ -17,8 +17,7 @@ public class NumberOfClassesMetric extends IAnalyzer {
 	}
 
 	@Override
-	public int analyze(TreeIterator<EObject> iterator, ArrayList<EClass> eclasses) {		
-		System.out.println("Number of Classes: " + eclasses.size());
+	public int analyze(TreeIterator<EObject> iterator, ArrayList<EClass> eclasses) {
 		return eclasses.size();
 	}
 

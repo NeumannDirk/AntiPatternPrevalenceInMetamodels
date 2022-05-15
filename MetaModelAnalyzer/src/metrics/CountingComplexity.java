@@ -26,20 +26,21 @@ public class CountingComplexity extends IAnalyzer {
 //			eclass.getEAllAttributes()
 //			eclass.getEAllContainments
 //			eclass.getEAllReferences()
-			countingComplexity += eclass.getEAllStructuralFeatures().size();
+			countingComplexity += eclass.getEReferences().size();
+			countingComplexity += eclass.getEAttributes().size();
 			
 //			eclass.getEAllSuperTypes()
-			countingComplexity += eclass.getEAllGenericSuperTypes().size();
+			countingComplexity += eclass.getEGenericSuperTypes().size();
 			
 			//?
-			countingComplexity += eclass.getEAllOperations().size();
+			countingComplexity += eclass.getEOperations().size();
 //			for(EOperation eo : eclass.getEAllOperations()) {
 //				System.out.println(eo);				
 //			}
 		}
 		
 		
-		System.out.println("CountingComplexity: " + countingComplexity);
+//		System.out.println("CountingComplexity: " + countingComplexity);
 		return countingComplexity;
 	}
 

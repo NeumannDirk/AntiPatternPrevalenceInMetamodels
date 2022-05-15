@@ -28,30 +28,31 @@ public class MME_complete extends IAnalyzer {
 	public int analyze(TreeIterator<EObject> iterator,ArrayList<EClass> eclasses) {
 		if (eclasses.size() == 0) {
 			this.ar.inc(0);
-			return -1;
+			return 0;
 		}
+		int erg = 0;
 		//[*,*] ==> ok
 		//[x,*] ==> ok
 		//[*,y] ==> nicht ok
 		//[x,y] ==> nicht ok wenn x > y
 		for (EClass ec : eclasses) {		
 			//Interesting part	
-			for (EStructuralFeature esf : ec.getEAllStructuralFeatures()) {
+			for (EStructuralFeature esf : ec.getEStructuralFeatures()) {
 				int lo = esf.getLowerBound();
 				int up = esf.getUpperBound();
 				//[x,y] ==> nicht ok wenn x > y
 				if((lo != -1)&&(up != -1)&&(lo > up)) {
 					this.ar.inc(eclasses.size());
-					return -1;					
+					erg++;					
 				}
 				//[*,y] ==> nicht ok
 				if((lo == -1)&&(up != -1)){
 					this.ar.inc(eclasses.size());
-					return -1;
+					erg++;
 				}
 			}
 		}
 		this.ar.inc(-1 * eclasses.size());
-		return -1;
+		return erg;
 	}
 }

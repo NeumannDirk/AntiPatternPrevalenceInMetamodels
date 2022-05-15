@@ -43,15 +43,16 @@ import hypergraph.HyperNode;
 public class EcoreToHypergraphConverter {
 
 	public static void main(String[] args) {
-		System.out.println("Start");
+//		System.out.println("Start");
 		String dummyInput = "D:\\Repositories\\MyEcore\\model\\myEcore.ecore";		
 		Resource metaModel = getMetaModel(dummyInput);		
 		HyperGraph hypergraph = createHypergraph(metaModel);
-		System.out.println("\n\n" + hypergraph);
-		hypergraph.calculateEntropy();
+//		System.out.println("\n\n" + hypergraph);
+		double entropy = hypergraph.calculateEntropy();
+		System.out.println(hypergraph.summary());
 	}
 
-	private static HyperGraph createHypergraph(Resource metaModel) {
+	public static HyperGraph createHypergraph(Resource metaModel) {
 		HyperGraph hypergraph = new HyperGraph();  
 		EList<EObject> emodels = metaModel.getContents();
 
@@ -114,13 +115,13 @@ public class EcoreToHypergraphConverter {
 					//getEAllOperations also returns derived
 					EList<EOperation> operations = nodeAsClass.getEOperations();
 					for(EOperation eop : operations) {
-						System.out.println(nodeAsClass.getName() + "::" + eop.getName());
+//						System.out.println(nodeAsClass.getName() + "::" + eop.getName());
 						for(EParameter epa : eop.getEParameters()) {
-							System.out.println("\t" + epa.getName() + " : " + epa.getEType());
-							System.out.println("\t" + epa.getName() + " : " + epa.getEGenericType().getEClassifier().getName());
+//							System.out.println("\t" + epa.getName() + " : " + epa.getEType());
+//							System.out.println("\t" + epa.getName() + " : " + epa.getEGenericType().getEClassifier().getName());
 						}
 						HyperEdge hyperEdge = HyperEdge.tryCreateHyperEdge(hypergraph, hyperNode, eop);
-						System.out.println("\t--> " + hyperEdge + "\n");
+//						System.out.println("\t--> " + hyperEdge + "\n");
 						if(hyperEdge != null) {				
 							hypergraph.edges.add(hyperEdge);
 						}

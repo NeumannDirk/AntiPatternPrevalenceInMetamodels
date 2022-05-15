@@ -50,7 +50,7 @@ public class HyperNode {
 		EObject eContainer = node.eContainer();
 		String location = "";
 		if (eContainer == null) {
-			System.out.println("Kein EContainer für eine Klasse!");
+//			System.out.println("Kein EContainer für eine Klasse!");
 		} else {
 			location = retrieveNameFromEContainer(eContainer) + "/";
 		}

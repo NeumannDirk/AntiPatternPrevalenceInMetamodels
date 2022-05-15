@@ -31,7 +31,7 @@ public class ClassHasMoreThanOneID extends IAnalyzer {
 
 	@Override
 	public int analyze(TreeIterator<EObject> iterator,ArrayList<EClass> eclasses) {
-		System.out.print("Classes that have more than one ID: ");
+//		System.out.print("Classes that have more than one ID: ");
 		int numberOfAntipatterns = 0;
 		if (eclasses.size() > 0) {
 			for (EClass ec : eclasses) {
@@ -47,7 +47,7 @@ public class ClassHasMoreThanOneID extends IAnalyzer {
 			}			
 		}
 		
-		System.out.println(numberOfAntipatterns);
+//		System.out.println(numberOfAntipatterns);
 		return numberOfAntipatterns;
 	}
 }

@@ -80,14 +80,17 @@ public class HyperEdge {
 	}
 
 	public static HyperEdge tryCreateHyperEdge(HyperGraph graph, HyperNode node, EOperation eop) {
-		System.out.println("\tNode: " + node);
-		System.out.println("\tEOp: " + eop);
+//		System.out.println("\tNode: " + node);
+//		System.out.println("\tEOp: " + eop);
 		
 		HashSet<HyperNode> nodes = new HashSet<HyperNode>();
 		nodes.add(node);
 		
 		for(EParameter epara : eop.getEParameters()) {
-			HyperNode retrievedNode = graph.tryFindNode(epara.getEGenericType().getEClassifier()); //.getEClassifier().getName()
+			HyperNode retrievedNode = null;
+			if (epara.getEGenericType() != null) {
+				retrievedNode = graph.tryFindNode(epara.getEGenericType().getEClassifier()); //.getEClassifier().getName()				
+			}
 			if(retrievedNode != null) {
 				nodes.add(retrievedNode);
 			}
